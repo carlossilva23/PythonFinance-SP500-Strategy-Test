@@ -7,10 +7,12 @@ Goals:
 - Calculate strategy's efficiency
 - Visualize data
 
-Languages/Libraries
+Languages/Libraries:
 - Python
 - pandas
 - matplotlib
 - yfinance
 
+Currently Working On: 
 
+I have successfuly been able to fetch stock data using yfinance and have calculated the short/long moving averages for each stock that I will be adding to my portfolio. I've also created my initial buy/sell logic in order to test this strategy out in a portfolio simulation. Currently I am building the code to simulate and assess the value of my portfolio. 

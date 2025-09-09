@@ -13,21 +13,10 @@ def crossover(ticker_data):
     switch_signal = ticker_data['Short MA'] > ticker_data['Long MA']
     ticker_data['Switch'] = switch_signal
     ticker_data['Prev Bool'] = ticker_data['Switch'].shift(1)
+    ticker_data['Buy Signal'] = (ticker_data['Prev Bool'] == True) & (ticker_data['Switch'] == False)
+    ticker_data['Sell Signal'] = (ticker_data['Prev Bool'] == False) & (ticker_data['Switch'] == True)
+    return ticker_data
     
 
-def date_tracker(ticker_data): 
-    buy_signal = ticker_data[(ticker_data['Prev Bool'] == True) & (ticker_data['Switch'] == False)]
-    sell_signal = ticker_data[(ticker_data['Prev Bool'] == False) & (ticker_data['Switch'] == True)]
-    print(buy_signal.index)
-    print(sell_signal.index)
-
-
-def main(): 
-    ticker = yf.download('PNW', period='1y', auto_adjust=True)
-    calculate_short_MA(ticker)
-    calculate_long_MA(ticker)
-    crossover(ticker)
-    date_tracker(ticker)
-main()
 
 
