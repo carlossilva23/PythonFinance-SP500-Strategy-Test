@@ -11,7 +11,7 @@ def initialize_portfolio(ticker_data):
         holdings[ticker] = 0
     return holdings
     
-def simulate_portfolio(ticker_data, holdings): 
+def simulate_portfolio(ticker_data, holdings, portfolio_data): 
     control = next(iter(ticker_data.values()))
     dates = control.index
 
@@ -31,6 +31,11 @@ def simulate_portfolio(ticker_data, holdings):
                 remaining = 1000 - (shares * price)
                 cash += remaining
                 log_trade(trade_log, date, symbol, "Buy", price, shares, cash, holdings, ticker_data)
+
+        portfolio_data['Date'] = date
+        portfolio_data['Portfolio Value'] = cash + sum(holdings[ticker] * price)
+
+    return portfolio_data
             
         
                 
@@ -38,7 +43,7 @@ def log_trade(trade_log, date, symbol, action, price, shares, cash, holdings, ti
     total_holdings = 0
     for stock, holds in holdings.items(): 
         total_holdings += holds
-    portfolio_value = cash + sum(holdings[stock] * ticker_data[stock].loc[date, "Close"])
+    trade_pv = cash + sum(holdings[stock] * ticker_data[stock].loc[date, "Close"])
     trade_log.append({
         "Date": date,
         "Ticker": symbol,
@@ -47,7 +52,8 @@ def log_trade(trade_log, date, symbol, action, price, shares, cash, holdings, ti
         "Shares": shares,
         "Cash": cash,
         "Holdings": total_holdings,
-        "Portfolio Value": portfolio_value,
+        "Portfolio Value": trade_pv,
     })
-                
+
+    return trade_log
     
